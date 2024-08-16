@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& tri) {
+        
+        int i,j;
+        int n=tri.size();
+        for(i=n-2;i>=0;i--)
+        {
+            for(j=0;j<=i;j++)
+            {
+                tri[i][j]+=min(tri[i+1][j],tri[i+1][j+1]);
+            }
+        }
+        return tri[0][0];
+    }
+};
