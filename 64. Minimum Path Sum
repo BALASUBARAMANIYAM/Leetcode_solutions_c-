@@ -33,5 +33,5 @@ public:
 }
 };
 
-//Runtime : 10ms
-//Memory : 12.65Mb
+//Runtime : 7ms
+//Memory : 12.42Mb
