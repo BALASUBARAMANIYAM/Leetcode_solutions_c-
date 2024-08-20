@@ -1,0 +1,24 @@
+#include<bits/stdc++.h>
+vector<int> printLeftView(BinaryTreeNode<int>* root) {
+    int i;
+    vector<int> temp;
+    if(root==NULL)
+    return temp;
+    queue<BinaryTreeNode<int>*> q;
+    q.push(root);
+    while(!q.empty())
+    {
+        int level=q.size();
+        for(i=0;i<level;i++)
+        {
+            if(i==0)
+            temp.push_back(q.front()->data);
+            if(q.front()->left!=NULL)
+            q.push(q.front()->left);
+            if(q.front()->right!=NULL)
+            q.push(q.front()->right);
+            q.pop();
+        }
+    }
+   return temp;
+}
