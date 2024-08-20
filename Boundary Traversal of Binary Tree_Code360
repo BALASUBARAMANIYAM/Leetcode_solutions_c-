@@ -1,0 +1,66 @@
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+// Helper function to perform inorder traversal and capture leaf nodes
+void inorder(TreeNode<int> *root, vector<int> &s) {
+    if (root == NULL)
+        return;
+
+    inorder(root->left, s);
+    if (root->left == NULL && root->right == NULL)  // This is a leaf node
+        s.push_back(root->data);
+    inorder(root->right, s);
+}
+
+// Function to add the left boundary (excluding leaf nodes)
+void addLeftBoundary(TreeNode<int> *root, vector<int> &s) {
+    TreeNode<int> *temp = root->left;
+    while (temp) {
+        if (temp->left != NULL || temp->right != NULL)  // Exclude leaf nodes
+            s.push_back(temp->data);
+        if (temp->left != NULL)
+            temp = temp->left;
+        else
+            temp = temp->right;
+    }
+}
+
+// Function to add the right boundary (excluding leaf nodes) in reverse order
+void addRightBoundary(TreeNode<int> *root, vector<int> &s) {
+    TreeNode<int> *temp = root->right;
+    stack<int> rev;  // Stack to reverse the order of right boundary
+    while (temp) {
+        if (temp->left != NULL || temp->right != NULL)  // Exclude leaf nodes
+            rev.push(temp->data);
+        if (temp->right != NULL)
+            temp = temp->right;
+        else
+            temp = temp->left;
+    }
+    while (!rev.empty()) {
+        s.push_back(rev.top());
+        rev.pop();
+    }
+}
+
+vector<int> traverseBoundary(TreeNode<int> *root) {
+    vector<int> s;
+    if (root == NULL)
+        return s;
+
+    // Root node
+    s.push_back(root->data);
+
+    // Add left boundary
+    addLeftBoundary(root, s);
+
+    // Add leaf nodes
+    inorder(root, s);
+
+    // Add right boundary
+    addRightBoundary(root, s);
+
+    return s;
+}
