@@ -1,0 +1,25 @@
+
+int heightOfBinaryTree(TreeNode<int> *root)
+{
+	if(root==NULL)
+    return 0;
+
+    queue<TreeNode<int>*> q;
+
+    int level=0;
+    q.push(root);
+    while(!q.empty())
+    {
+        int siz=q.size();
+        for(int i=0;i<siz;i++)
+        {
+            if(q.front()->left!=NULL)
+            q.push(q.front()->left);
+            if(q.front()->right!=NULL)
+            q.push(q.front()->right);
+            q.pop();
+        }
+        level++;
+    }
+    return level;
+}
