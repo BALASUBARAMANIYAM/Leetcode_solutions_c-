@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void bt(TreeNode* root, vector<string>& v, string temp) {
+        if (root == NULL)
+            return;
+
+        // Append the current node's value to the path
+        temp += to_string(root->val);
+
+        // If it's a leaf node, add the path to the vector
+        if (root->left == NULL && root->right == NULL) {
+            v.push_back(temp);
+            return;
+        }
+
+        // Otherwise, continue the path with "->"
+        temp += "->";
+
+        // Recur for left and right children
+        bt(root->left, v, temp);
+        bt(root->right, v, temp);
+    }
+
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> v;
+        if (root == NULL)
+            return v;
+
+        bt(root, v, "");
+        return v;
+    }
+};
