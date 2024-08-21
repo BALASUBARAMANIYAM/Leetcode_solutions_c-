@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+
+BinaryTreeNode<int>* mirror(BinaryTreeNode<int>* temp)
+{
+   if(temp==NULL)
+   return NULL;
+   BinaryTreeNode<int>* root = new BinaryTreeNode<int>(temp->data);
+   root->right=mirror(temp->left);
+   root->left=mirror(temp->right);
+   return root;
+}
+
+bool check(BinaryTreeNode<int>* root,BinaryTreeNode<int>* mir)
+{
+    if(root==NULL && mir==NULL)
+    return true;
+
+    if(root==NULL || mir==NULL)
+    return false;
+
+    return (root->data==mir->data) && check(root->left,mir->left) && check(root->right,mir->right);
+}
+
+bool isSymmetric(BinaryTreeNode<int>* root)
+{
+    if(root==NULL)
+    return true;
+   BinaryTreeNode<int>* mir=mirror(root); 
+    return check(root,mir);
+}
