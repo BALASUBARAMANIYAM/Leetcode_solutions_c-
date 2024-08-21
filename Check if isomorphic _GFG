@@ -1,0 +1,26 @@
+class Solution{
+  public:
+    // Return True if the given trees are isomotphic. Else return False.
+  
+    bool bt(Node* root1,Node* root2)
+    {
+        if(root1==NULL && root2==NULL)
+        return true;
+        
+        if(root1==NULL || root2==NULL)
+        return false;
+        
+         if (root1->data != root2->data)
+        return false;
+        
+        bool wns=bt(root1->left,root2->left) && bt(root1->right,root2->right);
+        bool ws=bt(root1->left,root2->right) && bt(root1->right,root2->left);
+        
+        return wns || ws;
+    }
+  
+    bool isIsomorphic(Node *root1,Node *root2)
+    {
+            return bt(root1,root2);
+    }
+};
