@@ -1,0 +1,38 @@
+class Solution {
+public:
+  int help(TreeNode* root)
+  {
+    if(root==NULL)
+    return 0;
+     queue<TreeNode*> q;
+     q.push(root);
+     int height=0;
+     while(!q.empty())
+     {
+        int level=q.size();
+        for(int i=0;i<level;i++)
+        {
+            if(q.front()->left!=NULL)
+            q.push(q.front()->left);
+            if(q.front()->right!=NULL)
+            q.push(q.front()->right);
+            q.pop();
+        }
+       height++;
+     }
+     return height;
+  }
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL)
+        return true;
+        if(root!=NULL)
+        {
+            int lh=help(root->left);
+            int rh=help(root->right);
+           if (abs(lh - rh) > 1)
+            return false;
+        }
+       return isBalanced(root->left) &&  isBalanced(root->right);
+       
+    }
+};
