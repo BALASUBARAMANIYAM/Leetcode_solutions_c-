@@ -1,0 +1,16 @@
+#include <bits/stdc++.h> 
+void bt(BinaryTreeNode<int> *root)
+{
+    if(root==NULL)
+    return  ;
+    bt(root->left);
+   bt(root->right);
+    swap(root->left,root->right);
+}
+
+void mirrorTree(BinaryTreeNode<int> *root) {
+        
+      if(root==NULL)
+       return;
+       bt(root);
+}
