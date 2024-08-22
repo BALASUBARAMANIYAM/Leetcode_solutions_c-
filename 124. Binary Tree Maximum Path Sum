@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int bt(TreeNode* root, int& maxi) {
+        if (root == nullptr)
+            return 0;
+
+       
+        int left = max(0, bt(root->left, maxi));
+        int right = max(0, bt(root->right, maxi));
+
+       
+        maxi = max(maxi, left + right + root->val);
+
+        
+        return root->val + std::max(left, right);
+    }
+
+    int maxPathSum(TreeNode* root) {
+        int maxi = INT_MIN;
+        bt(root, maxi);
+        return maxi;
+    }
+};
