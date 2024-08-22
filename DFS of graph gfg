@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    
+    void dfs(int V, vector<int> adj[],int source, vector<int> vis, vector<int>& temp)
+    {
+        if(vis[source]==0)
+        {
+            vis[source]=1;
+            temp.push_back(source);
+            
+            for(int i=0;i<adj[source].size();i++)
+            {
+                  dfs(V,adj,adj[source][i],vis,temp);
+            }
+            
+        }
+        return;
+    }
+    
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+     
+        vector<int> temp;
+        if(V==0)
+        return temp;
+         vector<int> vis(V,0);
+        dfs(V,adj,0,vis,temp);
+     
+       return temp;
+    }
+};
