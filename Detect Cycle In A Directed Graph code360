@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Helper function for DFS to detect a cycle in the graph
+void help(int n, vector<vector<int>>& adj, vector<int>& recStack, vector<int>& vis, int& ans, int source) {
+    if (vis[source] == 0) {
+        vis[source] = 1;            // Mark node as visited
+        recStack[source] = 1;       // Mark node in the current recursion stack
+
+        for (int i = 0; i < adj[source].size(); i++) {
+            int neighbor = adj[source][i];
+            if (vis[neighbor] == 0) {
+                help(n, adj, recStack, vis, ans, neighbor);
+                if (ans == 1) return;  // If cycle is found, exit early
+            } else if (recStack[neighbor] == 1) {
+                ans = 1;               // Cycle detected
+                return;
+            }
+        }
+    }
+    recStack[source] = 0;            // Unmark the node from the recursion stack after exploration
+}
+
+// Main function to detect a cycle in the directed graph
+int detectCycleInDirectedGraph(int n, vector<pair<int, int>>& edges) {
+    if (n == 0)
+        return 0;
+
+    vector<int> vis(n, 0);           // Visited array
+    vector<int> recStack(n, 0);      // Recursion stack array
+    vector<vector<int>> adj(n);      // Adjacency list
+
+    // Build the adjacency list
+    for (auto it : edges) {
+        adj[it.first - 1].push_back(it.second - 1);  // Convert to 0-based index
+    }
+
+    int ans = 0;
+
+    // Run DFS from every node to ensure all components are covered
+    for (int i = 0; i < n; i++) {
+        if (vis[i] == 0) {
+            help(n, adj, recStack, vis, ans, i);
+            if (ans == 1) return 1;   // If a cycle is found, return immediately
+        }
+    }
+
+    return ans;                       // Return 0 if no cycle is detected
+}
