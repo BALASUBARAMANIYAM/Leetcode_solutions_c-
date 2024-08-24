@@ -1,0 +1,44 @@
+class Solution {
+  public:
+    
+    bool dfs(vector<int>&vis, vector<int> adj[],int source,int par)
+    {
+        
+        if(vis[source]==0)
+        {
+            vis[source]=1;
+            
+            for(int i=0;i<adj[source].size();i++)
+            {
+                int node=adj[source][i];
+                if(vis[node]==0)
+                {
+                    if(dfs(vis,adj,node,source))
+                    return true;
+                }
+                else if(node!=par)
+                return true;
+            }
+        }
+        return false;
+        
+        
+    }
+    
+    
+    bool isCycle(int V, vector<int> adj[]) {
+        if(V==0)
+        return false;
+        
+        vector<int>vis(V,0);
+        for(int i=0;i<V;i++)
+        {
+            if(vis[i]==0)
+            {
+                if(dfs(vis,adj,i,i))
+                return true;
+            }
+        }
+        return false;
+    }
+};
