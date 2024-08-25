@@ -1,0 +1,65 @@
+class Solution {
+public:
+    bool check(int row, int col, int n, int m) {
+        return row >= 0 && col >= 0 && row < n && col < m;
+    }
+
+    bool spread(vector<vector<int>>& hospital, int row, int col) {
+        bool infected = false;
+        if (check(row + 1, col, hospital.size(), hospital[0].size()) && hospital[row + 1][col] == 2) {
+            hospital[row][col] = -1;
+            infected = true;
+        }
+        if (check(row - 1, col, hospital.size(), hospital[0].size()) && hospital[row - 1][col] == 2) {
+            hospital[row][col] = -1;
+            infected = true;
+        }
+        if (check(row, col + 1, hospital.size(), hospital[0].size()) && hospital[row][col + 1] == 2) {
+            hospital[row][col] = -1;
+            infected = true;
+        }
+        if (check(row, col - 1, hospital.size(), hospital[0].size()) && hospital[row][col - 1] == 2) {
+            hospital[row][col] = -1;
+            infected = true;
+        }
+        return infected;
+    }
+
+    void change(vector<vector<int>>& hospital) {
+        for (int i = 0; i < hospital.size(); i++) {
+            for (int j = 0; j < hospital[i].size(); j++) {
+                if (hospital[i][j] == -1)
+                    hospital[i][j] = 2;
+            }
+        }
+    }
+
+    int helpaterp(vector<vector<int>> hospital) {
+        if (hospital.empty()) return -1;
+        
+        int count = 0;
+        while (true) {
+            bool infected = false;
+            bool allInfected = true;
+            
+            for (int i = 0; i < hospital.size(); i++) {
+                for (int j = 0; j < hospital[i].size(); j++) {
+                    if (hospital[i][j] == 1) {
+                        allInfected = false;
+                        if (spread(hospital, i, j)) {
+                            infected = true;
+                        }
+                    }
+                }
+            }
+
+            if (allInfected) return count;
+            if (!infected) return -1;
+            
+            count++;
+            change(hospital);
+        }
+        
+        return count;
+    }
+};
