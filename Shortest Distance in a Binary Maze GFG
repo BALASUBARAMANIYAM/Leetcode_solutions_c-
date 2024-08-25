@@ -1,0 +1,58 @@
+class Solution {
+  public:
+  
+   bool check(int row, int col, vector<vector<int>> &grid) {
+       if (row < 0 || col < 0 || row >= grid.size() || col >= grid[0].size())
+           return false;
+       return true;
+   }
+   
+   int shortestPath(vector<vector<int>> &grid, pair<int, int> source, pair<int, int> destination) {
+     
+       if (grid.size() == 0)
+           return -1;
+         
+       queue<pair<int, pair<int, int>>> q;
+       q.push({0, source});
+       vector<vector<int>> temp(grid.size(), vector<int>(grid[0].size(), INT_MAX));
+       temp[source.first][source.second] = 0;
+         
+       while (!q.empty()) {
+           int dist = q.front().first;
+           int row = q.front().second.first;
+           int col = q.front().second.second;
+           q.pop();
+           
+           // Move Down
+           if (check(row + 1, col, grid) && grid[row + 1][col] == 1 && (dist + 1) < temp[row + 1][col]) {
+               q.push({dist + 1, {row + 1, col}});
+               temp[row + 1][col] = dist + 1;
+           }
+           
+           // Move Up
+           if (check(row - 1, col, grid) && grid[row - 1][col] == 1 && (dist + 1) < temp[row - 1][col]) {
+               q.push({dist + 1, {row - 1, col}});
+               temp[row - 1][col] = dist + 1;
+           }
+           
+           // Move Right
+           if (check(row, col + 1, grid) && grid[row][col + 1] == 1 && (dist + 1) < temp[row][col + 1]) {
+               q.push({dist + 1, {row, col + 1}});
+               temp[row][col + 1] = dist + 1;
+           }
+           
+           // Move Left
+           if (check(row, col - 1, grid) && grid[row][col - 1] == 1 && (dist + 1) < temp[row][col - 1]) {
+               q.push({dist + 1, {row, col - 1}});
+               temp[row][col - 1] = dist + 1;
+           }
+       }
+         
+       int result = temp[destination.first][destination.second];
+       if (result == INT_MAX) {
+           return -1;
+       } else {
+           return result;
+       }
+    }
+};
