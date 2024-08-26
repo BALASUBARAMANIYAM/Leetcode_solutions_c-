@@ -1,0 +1,58 @@
+class Solution
+{
+    public:
+    vector<int> topoSort(int V, vector<int> adj[]) 
+    {
+        vector<int> ans;
+        queue<int> q;
+        vector<int> indeg(V, 0);
+       
+        // Calculate the indegree for each node
+        for(int i = 0; i < V; i++)
+        {
+            for(int j = 0; j < adj[i].size(); j++)
+            {
+                indeg[adj[i][j]]++;
+            }
+        }
+       
+        // Push all nodes with indegree 0 into the queue
+        for(int i = 0; i < V; i++)
+        {
+            if(indeg[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+       
+        // Process the nodes in the queue
+        while(!q.empty())
+        {
+            int node = q.front();
+            q.pop();
+            ans.push_back(node);
+           
+            // Decrease the indegree of adjacent nodes
+            for(auto& it : adj[node])
+            {
+                indeg[it]--;
+                // If indegree becomes 0, add it to the queue
+                if(indeg[it] == 0)
+                {
+                    q.push(it);
+                }
+            }
+        }
+       
+        // If we processed all the nodes, return the topological order
+        if(ans.size() == V)
+        {
+            return ans;
+        }
+        else
+        {
+            // If there is a cycle, return an empty vector (or could raise an error)
+            return {};
+        }
+    }
+};
