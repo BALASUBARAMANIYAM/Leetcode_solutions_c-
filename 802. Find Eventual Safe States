@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        if (graph.size() == 0)
+            return {};
+        
+        int n = graph.size();
+        vector<int> temp;
+        queue<int> q;
+        vector<int> indeg(n, 0);
+        vector<vector<int>> reverseGraph(n);
+
+        // Calculate the in-degrees and build the reverse graph
+        for (int i = 0; i < n; i++) {
+            if (graph[i].empty()) {
+                q.push(i); // Terminal nodes
+            }
+            for (int j = 0; j < graph[i].size(); j++) {
+                reverseGraph[graph[i][j]].push_back(i);
+                indeg[i]++;
+            }
+        }
+
+        // Process nodes with 0 in-degree
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            temp.push_back(node);
+
+            for (int neighbor : reverseGraph[node]) {
+                indeg[neighbor]--;
+                if (indeg[neighbor] == 0) {
+                    q.push(neighbor);
+                }
+            }
+        }
+
+        sort(temp.begin(), temp.end());
+        return temp;
+    }
+};
