@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        
+    int i;
+    int totp=0;
+    int totd=0;
+    int curp=0;
+    int start=0;;
+    for(i=0;i<gas.size();i++)
+    {
+         totp+=gas[i];
+         totd+=cost[i];
+         curp+=gas[i]-cost[i];
+         if(curp<0)
+         {
+            start=i+1;
+            curp=0;
+         }
+    }
+
+    if(totp>=totd)
+    return start;
+    return -1;
+
+    }
+};
