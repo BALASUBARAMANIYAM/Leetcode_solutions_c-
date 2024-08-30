@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {
+        // Step 1: Sort the products lexicographically
+        sort(products.begin(), products.end());
+
+        vector<vector<string>> ans;  // This will store the result
+        int start = 0;
+        string prefix;
+
+        // Step 2: Process each character in searchWord to build the prefix
+        for (char c : searchWord) {
+            prefix += c;
+
+            // Step 3: Find the starting index where the prefix would fit in the sorted array
+            start = lower_bound(products.begin() + start, products.end(), prefix) - products.begin();
+
+            // Step 4: Collect up to 3 products that match the current prefix
+            vector<string> suggestions;
+            for (int i = start; i < min(start + 3, (int)products.size()); i++) {
+                if (products[i].find(prefix) == 0) {  // Check if the product starts with the prefix
+                    suggestions.push_back(products[i]);
+                } else {
+                    break;
+                }
+            }
+
+            // Step 5: Add the suggestions to the answer
+            ans.push_back(suggestions);
+        }
+
+        return ans;
+    }
+};
