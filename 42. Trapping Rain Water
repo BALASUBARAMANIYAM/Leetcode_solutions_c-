@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int leftmax = 0;
+        int rightmax = 0;
+        int tot = 0;
+        int left = 0;
+        int right = height.size() - 1;
+
+        while (left < right) {  // Fix the loop condition
+
+            if (height[left] > leftmax) {
+                leftmax = height[left];
+            }
+            if (height[right] > rightmax) {
+                rightmax = height[right];
+            }
+
+            if (height[left] < leftmax && height[left] < rightmax) {
+                tot += min(leftmax, rightmax) - height[left];
+                left++;  // Move the left pointer since it contributes to water trapping
+            } else if (height[right] < leftmax && height[right] < rightmax) {
+                tot += min(leftmax, rightmax) - height[right];
+                right--;  // Move the right pointer since it contributes to water trapping
+            } else {
+                if (leftmax < rightmax) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return tot;
+    }
+};
