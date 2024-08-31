@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        if (nums.size() < 3)
+            return false;
+
+        vector<int> leftmin(nums.size());
+        vector<int> rightmax(nums.size());
+
+        // Fill leftmin array
+        leftmin[0] = nums[0];
+        for (int i = 1; i < nums.size(); i++) {
+            leftmin[i] = min(leftmin[i - 1], nums[i]);
+        }
+
+        // Fill rightmax array
+        rightmax[nums.size() - 1] = nums[nums.size() - 1];
+        for (int i = nums.size() - 2; i >= 0; i--) {
+            rightmax[i] = max(rightmax[i + 1], nums[i]);
+        }
+
+        // Check for the triplet
+        for (int i = 1; i < nums.size() - 1; i++) {
+            if (nums[i] > leftmin[i - 1] && nums[i] < rightmax[i + 1]) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
