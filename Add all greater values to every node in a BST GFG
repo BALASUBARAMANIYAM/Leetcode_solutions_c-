@@ -1,0 +1,25 @@
+void modifyTree(Node* root, int& sum) {
+    if (root == NULL)
+        return;
+
+    // Traverse the right subtree first (reverse in-order)
+    modifyTree(root->right, sum);
+
+    // Update the current node's value
+    root->data += sum;
+
+    // Update the sum to include the current node's value
+    sum = root->data;
+
+    // Traverse the left subtree
+    modifyTree(root->left, sum);
+}
+
+Node* modify(Node* root) {
+    if (root == NULL)
+        return NULL;
+
+    int sum = 0;
+    modifyTree(root, sum);
+    return root;  // Return the root of the modified tree
+}
