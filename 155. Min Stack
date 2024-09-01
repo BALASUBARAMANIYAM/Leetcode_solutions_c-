@@ -1,0 +1,47 @@
+class MinStack {
+private:
+    stack<long long> s;  // Use long long to prevent overflow
+    long long mini;
+
+public:
+    MinStack() : mini(LLONG_MAX) {}  // Initialize with a very large value
+    
+    void push(int val) {
+        if (s.empty()) {
+            mini = val;
+            s.push(0);  // Push the difference (val - mini) which is 0
+        } else {
+            s.push(val - mini);  // Store the difference
+            if (val < mini) {
+                mini = val;  // Update the minimum
+            }
+        }
+    }
+    
+    void pop() {
+        if (s.empty()) return;
+
+        long long topValue = s.top();
+        s.pop();
+        
+        if (topValue < 0) {  // Negative value indicates the old minimum was updated
+            mini = mini - topValue;  // Recover the previous minimum
+        }
+    }
+    
+    int top() {
+        if (s.empty()) throw runtime_error("Stack is empty");
+
+        long long topValue = s.top();
+        if (topValue > 0) {
+            return topValue + mini;
+        } else {
+            return mini;  // If topValue is 0 or negative, return the current minimum
+        }
+    }
+    
+    int getMin() {
+        if (s.empty()) throw runtime_error("Stack is empty");
+        return mini;  // Return the current minimum
+    }
+};
