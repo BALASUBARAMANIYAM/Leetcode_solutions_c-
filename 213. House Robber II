@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int robber(vector<int>& nums, vector<int>& dp, int i, int size) {
+        if (i >= size)
+            return 0;
+        if (dp[i] != -1)
+            return dp[i];
+        
+        int pick = nums[i] + robber(nums, dp, i + 2, size);
+        int notpickup = robber(nums, dp, i + 1, size);
+
+        dp[i] = max(pick, notpickup);
+        return dp[i];
+    }
+
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return nums[0];
+
+        vector<int> dp1(n, -1);
+        vector<int> dp2(n, -1);
+        
+        int case1 = robber(nums, dp1, 0, n - 1); // Exclude the last house
+        int case2 = robber(nums, dp2, 1, n);     // Exclude the first house
+        
+        return max(case1, case2);
+    }
+};
