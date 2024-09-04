@@ -1,0 +1,33 @@
+class Solution {
+public:
+
+    int robber(vector<int>& nums, int i, vector<int>& dp) {
+        if (i >= nums.size()) {
+            return 0;
+        }
+        
+        // If we have already solved this subproblem, return the stored result
+        if (dp[i] != -1) {
+            return dp[i];
+        }
+
+        // Option 1: Rob the current house and move to i+2
+        int pick = nums[i] + robber(nums, i + 2, dp);
+        
+        // Option 2: Skip the current house and move to i+1
+        int notPick = robber(nums, i + 1, dp);
+        
+        // Store the result in dp array and return it
+        dp[i] = max(pick, notPick);
+        return dp[i];
+    }
+
+    int rob(vector<int>& nums) {
+        if (nums.size() == 0) {
+            return 0;
+        }
+
+        vector<int> dp(nums.size(), -1);
+        return robber(nums, 0, dp);
+    }
+};
