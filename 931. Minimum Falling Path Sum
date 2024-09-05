@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int minFallingPathSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        if (n == 0)
+            return 0;
+
+        // Initialize dp table with same dimensions as mat
+        vector<vector<int>> dp(n, vector<int>(n, INT_MAX));
+
+        // Copy the first row as is
+        for (int i = 0; i < n; i++) {
+            dp[0][i] = mat[0][i];
+        }
+
+        // Fill the dp table
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                // Check all possible positions from the previous row
+                int upLeft = (j > 0) ? dp[i - 1][j - 1] : INT_MAX;  // Top-left diagonal
+                int upRight = (j < n - 1) ? dp[i - 1][j + 1] : INT_MAX;  // Top-right diagonal
+                int up = dp[i - 1][j];  // Directly above
+
+                // Current dp state is min of the three above possibilities plus current cell value
+                dp[i][j] = mat[i][j] + min(up, min(upLeft, upRight));
+            }
+        }
+
+        // Find the minimum in the last row of dp
+        int mini = INT_MAX;
+        for (int i = 0; i < n; i++) {
+            mini = min(mini, dp[n - 1][i]);
+        }
+
+        return mini;
+    }
+};
