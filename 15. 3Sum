@@ -2,39 +2,48 @@ class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         vector<vector<int>> ans;
-        if(nums.size() < 3) // if less than 3 elements, no triplet possible
+        if (nums.size() < 3) {
             return ans;
-      
+        }
+
+        // Sort the array to use the two-pointer technique
         sort(nums.begin(), nums.end());
-        
-        for(int i = 0; i < nums.size() - 2; i++) {
-            // Skip duplicate elements to avoid duplicate triplets
-            if(i > 0 && nums[i] == nums[i-1])
+
+        for (int left = 0; left < nums.size() - 2; ++left) {
+            // Skip duplicate values for the first element
+            if (left > 0 && nums[left] == nums[left - 1]) {
                 continue;
-            
-            int j = i + 1;
-            int k = nums.size() - 1;
-            
-            while(j < k) {
-                int sum = nums[i] + nums[j] + nums[k];
-                
-                if (sum < 0) {
-                    j++;
-                } else if (sum > 0) {
-                    k--;
+            }
+
+            int mid = left + 1;
+            int right = nums.size() - 1;
+
+            while (mid < right) {
+                int sum = nums[left] + nums[mid] + nums[right];
+
+                if (sum == 0) {
+                    ans.push_back({nums[left], nums[mid], nums[right]});
+                    
+                    // Skip duplicate values for the second element
+                    while (mid < right && nums[mid] == nums[mid + 1]) {
+                        ++mid;
+                    }
+
+                    // Skip duplicate values for the third element
+                    while (mid < right && nums[right] == nums[right - 1]) {
+                        --right;
+                    }
+
+                    ++mid;
+                    --right;
+                } else if (sum < 0) {
+                    ++mid;  // Move the mid pointer to the right to increase the sum
                 } else {
-                    ans.push_back({nums[i], nums[j], nums[k]});
-                    
-                    // Skip duplicate elements for j and k
-                    while(j < k && nums[j] == nums[j + 1]) j++;
-                    while(j < k && nums[k] == nums[k - 1]) k--;
-                    
-                    j++;
-                    k--;
+                    --right; // Move the right pointer to the left to decrease the sum
                 }
             }
         }
-        
+
         return ans;
     }
 };
