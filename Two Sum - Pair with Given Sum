@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    bool hasArrayTwoCandidates(vector<int>& arr, int x) {
+        if(arr.size()==0)
+        return false;
+       int left=0;
+       int right=arr.size()-1;
+       sort(arr.begin(),arr.end());
+       while(left<right)
+       {
+           if(arr[left]+arr[right]==x)
+           return true;
+           else if(arr[left]+arr[right]<x)
+           left++;
+           else
+           right--;
+       }
+       
+       return false;
+    }
+};
