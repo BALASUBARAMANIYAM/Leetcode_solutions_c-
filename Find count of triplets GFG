@@ -1,0 +1,34 @@
+class Solution{
+public:	
+	
+	int countTriplet(int arr[], int n)
+	{
+	    int ans = 0;
+	    sort(arr, arr + n);  // Sort the array
+	    
+	    // Traverse from the last element to the third element
+	    for(int right = n - 1; right >= 2; right--)
+	    {
+	        int left = 0;
+	        int mid = right - 1;
+	        
+	        // Use two pointers to check for valid triplets
+	        while (left < mid) {
+	            int sum = arr[left] + arr[mid];
+	            if (sum == arr[right]) {
+	                ans++;  // Found a valid triplet
+	                left++;
+	                mid--;
+	            }
+	            else if (sum < arr[right]) {
+	                left++;  // Increase the sum
+	            }
+	            else {
+	                mid--;  // Decrease the sum
+	            }
+	        }
+	    }
+	    
+	    return ans;
+	}
+};
