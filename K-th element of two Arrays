@@ -1,0 +1,43 @@
+class Solution {
+public:
+    int kthElement(int k, vector<int>& arr1, vector<int>& arr2) {
+        int i = 0, j = 0;
+        int count = 0;
+        int result = 0;
+
+        while (i < arr1.size() && j < arr2.size()) {
+            if (arr1[i] < arr2[j]) {
+                result = arr1[i];
+                i++;
+            } else {
+                result = arr2[j];
+                j++;
+            }
+            count++;
+            if (count == k) {
+                return result;
+            }
+        }
+
+        // If one array is exhausted, continue the other array
+        while (i < arr1.size()) {
+            result = arr1[i];
+            i++;
+            count++;
+            if (count == k) {
+                return result;
+            }
+        }
+
+        while (j < arr2.size()) {
+            result = arr2[j];
+            j++;
+            count++;
+            if (count == k) {
+                return result;
+            }
+        }
+
+        return -1; // Return -1 in case of an error (shouldn't happen if inputs are valid)
+    }
+};
