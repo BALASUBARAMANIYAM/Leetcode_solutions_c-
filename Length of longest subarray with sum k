@@ -1,0 +1,27 @@
+int getLongestSubarray(vector<int>& nums, int k) {
+    int maxLength = 0;
+    int sum = 0;
+    unordered_map<int, int> mp; // stores (sum, index)
+    
+    for (int i = 0; i < nums.size(); i++) {
+        sum += nums[i];
+        
+        // Check if the entire subarray from 0 to i has the sum k
+        if (sum == k) {
+            maxLength = max(maxLength, i + 1);
+        }
+        
+        // If (sum - k) exists in the map, that means there is a subarray ending at i with sum k
+        if (mp.find(sum - k) != mp.end()) {
+            maxLength = max(maxLength, i - mp[sum - k]);
+        }
+        
+        // Only insert the current sum into the map if it's not already present,
+        // to ensure we are using the earliest index for the longest subarray
+        if (mp.find(sum) == mp.end()) {
+            mp[sum] = i;
+        }
+    }
+
+    return maxLength;
+}
