@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        // Return an empty string if the input is empty
+        if (strs.empty()) return "";
+
+        // Initialize the answer string as the first string in the vector
+        string ans = strs[0];
+
+        // Iterate over the remaining strings in the vector
+        for (int i = 1; i < strs.size(); i++) {
+            // Compare the current answer with the next string
+            int j = 0;
+            while (j < ans.size() && j < strs[i].size() && ans[j] == strs[i][j]) {
+                j++;
+            }
+            // Update the answer with the common prefix found so far
+            ans = ans.substr(0, j);
+
+            // If at any point the common prefix becomes empty, return it
+            if (ans.empty()) return "";
+        }
+
+        return ans;  // Return the longest common prefix
+    }
+};
