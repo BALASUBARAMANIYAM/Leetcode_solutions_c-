@@ -1,0 +1,43 @@
+
+class Solution {
+public:
+    std::string reverseWords(std::string s) {
+        std::string ans;
+        std::vector<std::string> words;
+        
+        if(s.empty())
+            return ans;
+
+        int start = 0;
+
+        // Trim leading and trailing spaces
+        while (start < s.size() && s[start] == ' ') start++;
+        int end = s.size() - 1;
+        while (end >= 0 && s[end] == ' ') end--;
+
+        // Split the words
+        for (int i = start; i <= end; i++) {
+            if (s[i] == ' ') {
+                if (start != i) {  // Avoid adding empty words due to multiple spaces
+                    words.push_back(s.substr(start, i - start));
+                }
+                start = i + 1;
+            }
+        }
+
+        // Add the last word (if any)
+        if (start <= end) {
+            words.push_back(s.substr(start, end - start + 1));
+        }
+
+        // Reverse the words and form the answer
+        for (int i = words.size() - 1; i >= 0; i--) {
+            ans += words[i];
+            if (i > 0) {
+                ans += " ";  
+            }
+        }
+
+        return ans;
+    }
+};
