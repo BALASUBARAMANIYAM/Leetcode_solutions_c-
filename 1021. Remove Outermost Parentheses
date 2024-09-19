@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        string ans;  // To store the final result
+        stack<char> st;  // Stack to track the parentheses
+
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') {
+                // Push to the stack if it's not the first outer '('
+                if (!st.empty()) {
+                    ans += '(';
+                }
+                st.push('(');  // Push '(' to the stack
+            } else if (s[i] == ')') {
+                st.pop();  // Pop from the stack for matching ')'
+                // Append ')' to the result if it's not the last outer ')'
+                if (!st.empty()) {
+                    ans += ')';
+                }
+            }
+        }
+
+        return ans;
+    }
+};
