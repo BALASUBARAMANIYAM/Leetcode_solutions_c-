@@ -1,0 +1,21 @@
+#include <bits/stdc++.h> 
+bool check(vector<int>& arr,int n,int tar)
+{
+     if(tar==0)
+     return true;
+     if(n==0)
+     return arr[n]==tar;
+
+     bool nottake=check(arr,n-1,tar);
+     bool take=false;
+     if(tar>=arr[n])
+     {
+         take=check(arr,n-1,tar-arr[n]);
+     }
+     return take || nottake;
+
+}
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+   return check(arr,n-1,k);
+
+}
