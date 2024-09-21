@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void check(vector<vector<int>>& ans,int ind,vector<int> cand,int tar,vector<int> temp)
+    {
+        if(tar==0)
+        {
+           ans.push_back(temp);
+            return;
+        }
+
+        if(tar<0 || ind>=cand.size())
+        return;
+        temp.push_back(cand[ind]);
+         check(ans,ind+1,cand,tar-cand[ind],temp);
+         temp.pop_back();
+         while (ind + 1 < cand.size() && cand[ind] == cand[ind + 1]) {
+            ind++;
+        }
+          check(ans,ind+1,cand,tar,temp);
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& cand, int tar) {
+        vector<vector<int>> ans;
+        if(cand.size()==0)
+        return ans;
+        vector<int> temp;
+        sort(cand.begin(),cand.end());
+        check(ans,0,cand,tar,temp);
+        return ans;
+    }
+};
