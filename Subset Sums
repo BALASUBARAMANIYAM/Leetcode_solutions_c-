@@ -1,0 +1,18 @@
+class Solution {
+public:
+    void check(vector<int>& ans, vector<int>& arr, int ind, int sum) {
+        // Base case: if we've considered all elements
+        if (ind == arr.size()) {
+            ans.push_back(sum);
+            return;
+        }
+        check(ans, arr, ind + 1, sum + arr[ind]);
+        check(ans, arr, ind + 1, sum);
+    }
+
+    vector<int> subsetSums(vector<int> arr, int n) {
+        vector<int> ans;
+        check(ans, arr, 0, 0);
+        return ans;
+    }
+};
