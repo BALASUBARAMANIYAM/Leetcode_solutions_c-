@@ -1,0 +1,29 @@
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    void check(vector<vector<int>>& ans, vector<int> temp, int ind, vector<int>& cand, int target) {
+        if (target == 0) {
+            ans.push_back(temp);
+            return;
+        }
+        if (ind >= cand.size() || target < 0) {
+            return;
+        }
+        
+        
+        temp.push_back(cand[ind]);
+        check(ans, temp, ind, cand, target - cand[ind]);  
+       
+        temp.pop_back();
+        check(ans, temp, ind + 1, cand, target);  
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& cand, int target) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        check(ans, temp, 0, cand, target);
+        return ans;
+    }
+};
