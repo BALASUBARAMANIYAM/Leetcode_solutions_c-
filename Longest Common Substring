@@ -1,0 +1,22 @@
+class Solution {
+  public:
+    int longestCommonSubstr(string& s1, string& s2) {
+        int n1=s1.size();
+        int n2 = s2.size();
+         vector<vector<int>> mat(n1+1, vector<int>(n2+1,0));
+         
+         int maxy=0;
+         
+         
+        for (int i = 1; i <= n1; i++) {  // Fix loop condition
+            for (int j = 1; j <= n2; j++) {  // Fix loop condition
+                if (s1[i - 1] == s2[j - 1]) {  // Compare correct characters
+                    mat[i][j] = mat[i - 1][j - 1] + 1;
+                    maxy = max(maxy, mat[i][j]);  // Store max length found
+                }
+            }
+        }
+         
+    return maxy;
+    }
+};
