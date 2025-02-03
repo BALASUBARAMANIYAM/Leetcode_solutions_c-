@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool isMatch(string s, string t) {
+int n1 = s.size();
+        int n2 = t.size();
+        vector<vector<bool>> mat(n1 + 1, vector<bool>(n2 + 1, false));
+
+        // Base Case: Empty pattern matches empty string
+        mat[0][0] = true;
+
+        // Base Case: Handling '*' at the beginning of pattern
+        for (int j = 1; j <= n2; j++) {
+            if (t[j - 1] == '*') mat[0][j] = mat[0][j - 1];
+        }
+
+        for (int i = 1; i <= n1; i++) {
+            for (int j = 1; j <= n2; j++) {
+                if (s[i - 1] == t[j - 1] || t[j - 1] == '?') {
+                    mat[i][j] = mat[i - 1][j - 1];
+                } else if (t[j - 1] == '*') {
+                    mat[i][j] = mat[i - 1][j] || mat[i][j - 1];
+                }
+            }
+        }
+        return mat[n1][n2];
+
+    }
+};
+
+youtube link :https://www.youtube.com/watch?v=3ZDZ-N0EPV0
