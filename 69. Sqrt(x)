@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        if (x == 0) return 0; // Handle edge case
+
+        long long left = 1, right = x, mid;
+        while (left <= right) {
+            mid = left + (right - left) / 2; // Prevent overflow
+            
+            if (mid * mid == x) {
+                return mid; // Perfect square case
+            } else if (mid * mid > x) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return right; // Return the floor of sqrt(x)
+    }
+};
