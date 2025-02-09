@@ -18,3 +18,30 @@ public:
         return nums[left]; // or nums[right], since left == right at the end
     }
 };
+
+
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        int ans = INT_MAX;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            ans = min(ans, nums[mid]);
+
+            // If mid element is greater than right, the minimum is in the right half
+            if (nums[mid] > nums[right]) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+Youtube link:https://www.youtube.com/watch?v=nhEMDKMB44g
