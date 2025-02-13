@@ -1,0 +1,34 @@
+
+class Solution {
+public:
+    vector<int> findMaxRow(vector<vector<int>> mat, int N) {
+        int maxi = 0;  // Maximum count of 1s
+        int ind = 0;   // Row index with max 1s
+
+        for (int i = 0; i < N; i++) {
+            int left = 0, right = N - 1;
+            int first_one_index = N; // If no 1s are found, this remains N
+            
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                
+                if (mat[i][mid] == 1) {
+                    first_one_index = mid;
+                    right = mid - 1; // Search in the left half
+                } else {
+                    left = mid + 1; // Search in the right half
+                }
+            }
+            
+            int ones_count = N - first_one_index; // Number of 1s in this row
+            if (ones_count > maxi) {
+                maxi = ones_count;
+                ind = i;
+            }
+        }
+        
+        return {ind, maxi};
+    }
+};
+
+Youtube link: tuf
