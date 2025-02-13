@@ -1,0 +1,57 @@
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0;
+        int right = nums.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2; // Calculate mid
+
+            // Check if mid is a peak
+            bool isPeak = true;
+            if (mid > 0 && nums[mid] < nums[mid - 1]) {
+                isPeak = false;
+                right = mid - 1; // Move left
+            } else if (mid < nums.size() - 1 && nums[mid] < nums[mid + 1]) {
+                isPeak = false;
+                left = mid + 1; // Move right
+            }
+
+            if (isPeak) {
+                return mid; // Return the index of the peak
+            }
+        }
+
+        return -1; // No peak found (should not happen for valid inputs)
+    }
+};
+
+
+
+
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int left = 0;
+        int right = nums.size() - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2; // Calculate mid to avoid overflow
+
+            // Check if mid is a peak
+            if (nums[mid] > nums[mid + 1]) {
+                // If mid is greater than the next element, the peak is in the left half (including mid)
+                right = mid;
+            } else {
+                // Otherwise, the peak is in the right half (excluding mid)
+                left = mid + 1;
+            }
+        }
+
+        // When left == right, we've found the peak element
+        return left;
+    }
+};
+
+
+Youtube :TUF
