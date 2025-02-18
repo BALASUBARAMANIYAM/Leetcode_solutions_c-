@@ -1,0 +1,20 @@
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+         ListNode* first=head;
+          ListNode* second=head;
+
+          while(second->next!=nullptr && second->next->next!=nullptr)
+          {
+            first = first->next;
+            second=second->next->next;
+          }
+          if(second->next!=nullptr)
+          {
+            return first->next;
+          }
+          return first;
+    }
+};
+
+Youtube : TUF
