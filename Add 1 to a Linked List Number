@@ -1,0 +1,40 @@
+class Solution {
+  public:
+    // Function to reverse the linked list
+    Node* reverse(Node* head) {
+       Node* prev = nullptr;
+       Node* cur = head;
+       Node* temp;
+       
+       // Fixed: Changed condition from (cur->next != nullptr) to (cur != nullptr) 
+       while (cur != nullptr) {  
+           temp = cur->next;
+           cur->next = prev;
+           prev = cur;
+           cur = temp;
+       }
+       return prev;
+    }
+    
+    Node* addOne(Node* head) {
+        head = reverse(head);  // Step 1: Reverse the linked list
+        Node* temp = head;
+
+        while (temp != nullptr) {
+            if (temp->data < 9) {  
+                temp->data += 1;  // If digit is less than 9, add 1 and stop
+                return reverse(head);  // Fixed: Reverse back immediately to avoid unnecessary traversal
+            }
+            temp->data = 0;  // If digit is 9, set it to 0 and move to the next node
+            
+            // Fixed: If all digits are 9, create a new node for carry (e.g., 999 → 1000)
+            if (temp->next == nullptr) {  
+                temp->next = new Node(1);
+                return reverse(head);
+            }
+            temp = temp->next;
+        }
+        
+        return reverse(head);  // Step 3: Reverse the list back to original order
+    }
+};
