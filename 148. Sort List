@@ -1,0 +1,58 @@
+class Solution {
+public:
+
+   ListNode* find_middle(ListNode* head) {
+      ListNode* slow = head;
+      ListNode* fast = head;
+      ListNode* prev = nullptr;
+
+      while (fast != nullptr && fast->next != nullptr) {
+          prev = slow;
+          slow = slow->next;
+          fast = fast->next->next;
+      }
+
+      if (prev) prev->next = nullptr; // Properly split the list
+      return slow;
+   }
+
+   ListNode* merge(ListNode* lefthead, ListNode* righthead) {
+        ListNode* dummy = new ListNode(-1);
+        ListNode* temp = dummy;
+
+        while (lefthead != nullptr && righthead != nullptr) {
+            if (lefthead->val < righthead->val) {
+                temp->next = lefthead;
+                lefthead = lefthead->next;
+            } else {
+                temp->next = righthead;
+                righthead = righthead->next;
+            }
+            temp = temp->next;
+        }
+
+        if (lefthead) temp->next = lefthead; // Directly link remaining nodes
+        if (righthead) temp->next = righthead;
+
+        ListNode* sortedHead = dummy->next;
+        delete dummy; // Avoid memory leak
+        return sortedHead;
+   }
+
+   ListNode* mergesort(ListNode* head) {
+        if (head == nullptr || head->next == nullptr)
+            return head;
+
+        ListNode* middle = find_middle(head);
+        ListNode* lefthead = mergesort(head);
+        ListNode* righthead = mergesort(middle);
+        
+        return merge(lefthead, righthead);
+   }
+
+   ListNode* sortList(ListNode* head) {
+        return mergesort(head);
+   }
+};
+
+Youtube : https://www.youtube.com/watch?v=8ocB7a_c-Cc
