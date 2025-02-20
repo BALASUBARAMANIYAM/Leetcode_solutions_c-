@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int findlen(ListNode* head) {
+        int count = 0;
+        ListNode* start = head;
+        while (start != nullptr) {
+            count++;
+            start = start->next;
+        }
+        return count;
+    }
+
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (!head || !head->next || k == 0) return head; // Edge cases
+        
+        int length = findlen(head);
+        k = k % length; // Ensure k is within bounds
+        if (k == 0) return head; // No rotation needed
+        
+        int rem = length - k;
+        ListNode* start = head;
+
+        // Move `start` to the (rem-1)th node
+        for (int i = 0; i < rem - 1; i++) {
+            start = start->next;
+        }
+
+        ListNode* newhead = start->next; // New head is at k-th last node
+        start->next = nullptr; // Break the list
+
+        ListNode* temp = newhead;
+        while (temp->next != nullptr) {
+            temp = temp->next;
+        }
+
+        temp->next = head; // Connect the last node to old head
+        return newhead;
+    }
+};
+
+Youtube : TUF
