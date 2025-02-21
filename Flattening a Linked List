@@ -1,0 +1,33 @@
+class Solution {
+  public:
+  
+    Node* merge_twolist(Node* list1, Node* list2) {
+        Node* dummy = new Node(-1);
+        Node* res = dummy;
+
+        while (list1 && list2) {
+            if (list1->data < list2->data) {
+                res->bottom = list1;
+                list1 = list1->bottom;
+            } else {
+                res->bottom = list2;
+                list2 = list2->bottom;
+            }
+            res = res->bottom;
+        }
+
+        if (list1) res->bottom = list1;
+        else res->bottom = list2;
+
+        return dummy->bottom;
+    }
+
+    Node* flatten(Node* root) {
+        if (!root || !root->next) return root; // Fixed base case
+
+        root->next = flatten(root->next); // Flatten the next part first
+        root = merge_twolist(root, root->next); // Merge with current
+
+        return root;
+    }
+};
