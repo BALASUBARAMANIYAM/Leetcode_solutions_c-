@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int minBitFlips(int start, int goal) {
+        int tar = start ^ goal;  // XOR to find differing bits
+        int ans = 0;
+        
+        // Count set bits (Hamming weight)
+        while (tar > 0) {
+            ans += (tar & 1); // Check if the last bit is 1
+            tar >>= 1; // Right shift to check next bit
+        }
+        
+        return ans;
+    }
+};
