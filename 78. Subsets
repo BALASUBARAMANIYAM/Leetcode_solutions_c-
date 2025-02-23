@@ -1,0 +1,23 @@
+Method 1 : [Bit manipulation]
+Youtube link : https://www.youtube.com/watch?v=LqKaUv1G3_I
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int n = nums.size();
+        vector<vector<int>> res;
+        int tot_subsets = 1 << n; // 2^n subsets
+
+        for (int i = 0; i < tot_subsets; i++) {  // Iterate through all subset possibilities
+            vector<int> subset;
+            for (int j = 0; j < n; j++) {  // Check each bit position
+                if (i & (1 << j)) {  // If j-th bit is set, include nums[j]
+                    subset.push_back(nums[j]);
+                }
+            }
+            res.push_back(subset);
+        }
+        
+        return res;
+    }
+};
