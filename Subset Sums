@@ -16,3 +16,30 @@ public:
         return ans;
     }
 };
+
+
+RECURSION WITH FOR LOOP
+
+class Solution {
+  public:
+  
+  void calc(vector<int>arr,vector<int>&res , int n,int temp,int sum)
+  {
+      for(int i=temp;i<n;i++)
+      {
+          int tot = sum  + arr[i];
+          res.push_back(tot);
+          calc(arr,res,n,i+1,tot);
+      }
+      return ;
+  }
+  
+  
+    vector<int> subsetSums(vector<int>& arr) {
+      vector<int> res;
+      int n=arr.size();
+      res.push_back(0);
+      calc(arr,res,n,0,0);
+      return res;
+    }
+};
