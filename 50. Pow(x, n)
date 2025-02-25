@@ -18,3 +18,31 @@ public:
         return result;
     }
 };
+
+
+//Recursive
+
+class Solution {
+public:
+    double cal(double x, long long n) {
+        if (n == 0) 
+            return 1;  // Base case: anything raised to power 0 is 1
+        
+        double half = cal(x, n / 2);  // Recursively compute half power
+        
+        if (n % 2 == 0) 
+            return half * half;  // If even, multiply halves
+        else 
+            return half * half * x;  // If odd, multiply extra x
+    }
+
+    double myPow(double x, int n) {
+        long long N = n;  // Convert to long long to handle INT_MIN case
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        return cal(x, N);
+    }
+};
+
