@@ -29,3 +29,42 @@ public:
         return ans;
     }
 };
+
+
+//new method
+
+class Solution {
+public:
+    void calc(vector<int>& candidates, int target, vector<vector<int>>& res,
+              vector<int>& temp, int n, int index, int sum) {
+        if (sum == target) {
+            res.push_back(temp);
+            return;
+        }
+        if (sum > target || index == n) {
+            return;
+        }
+
+        // Include the current element
+        temp.push_back(candidates[index]);
+        calc(candidates, target, res, temp, n, index + 1, sum + candidates[index]);
+        temp.pop_back();
+
+        // Skip duplicate elements
+        while (index + 1 < n && candidates[index] == candidates[index + 1]) {
+            index++;
+        }
+
+        // Exclude the current element
+        calc(candidates, target, res, temp, n, index + 1, sum);
+    }
+
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        sort(candidates.begin(), candidates.end());  // Sort to handle duplicates
+        int n = candidates.size();
+        calc(candidates, target, res, temp, n, 0, 0);
+        return res;
+    }
+};
