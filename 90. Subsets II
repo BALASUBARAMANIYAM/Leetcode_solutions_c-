@@ -22,4 +22,37 @@ public:
     }
 };
 
+//New method
+
+class Solution {
+public:
+    void calc(vector<int>& nums, int n, vector<int>& temp, vector<vector<int>>& res, int index) {
+        if (index == n) {
+            res.push_back(temp);
+            return;
+        }
+
+        // Include the current element
+        temp.push_back(nums[index]);
+        calc(nums, n, temp, res, index + 1);
+        temp.pop_back();  
+
+        // Skip duplicates
+        while (index + 1 < n && nums[index] == nums[index + 1]) {
+            index++;
+        }
+
+        // Exclude the current element
+        calc(nums, n, temp, res, index + 1);
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        sort(nums.begin(), nums.end());  // Sort to handle duplicates
+        calc(nums, nums.size(), temp, res, 0);
+        return res;
+    }
+};
+
 
