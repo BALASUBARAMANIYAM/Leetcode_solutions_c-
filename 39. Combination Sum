@@ -27,3 +27,34 @@ public:
         return ans;
     }
 };
+
+
+//Next Method
+
+class Solution {
+public:
+    void calc(vector<int>& candidates, int target,vector<vector<int>>&res,
+        vector<int>&temp,int index,int n,int sum)
+        {
+            if(sum>target || index==n)
+            {
+                return;
+            }
+            if(sum==target)
+            {
+                res.push_back(temp);
+                return;
+            }
+            temp.push_back(candidates[index]);
+               calc(candidates,target,res,temp,index,n,sum+candidates[index]);
+               temp.pop_back();
+               calc(candidates,target,res,temp,index+1,n,sum);
+        }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        int n = candidates.size();
+        calc(candidates,target,res,temp,0,n,0);
+        return res;
+    }
+};
