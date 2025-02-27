@@ -1,0 +1,39 @@
+
+class Solution {
+public:
+    int factorial(int n) {
+        int fact = 1;
+        for (int i = 1; i <= n; i++)
+            fact *= i;
+        return fact;
+    }
+
+    void cal(string& ans, int n, int& k, vector<char>& dump) {
+        if (n == 0) return;
+
+        int permutation = factorial(n - 1);  // (n-1)! for partitioning
+        int pos = (k - 1) / permutation;     // Zero-based index
+        ans.push_back(dump[pos]);
+        dump.erase(dump.begin() + pos);      // Remove used element
+        k -= pos * permutation;              // Update k for next level
+
+        // Recurse for next level with updated values
+        cal(ans, n - 1, k, dump);
+    }
+
+    string getPermutation(int n, int k) {
+        string ans;
+        vector<char> dump;
+
+        // Fill numbers 1 to n as characters
+        for (int i = 1; i <= n; i++)
+            dump.push_back('0' + i);
+
+        cal(ans, n, k, dump);
+        return ans;
+    }
+};
+
+
+
+YOUTUBE :TUF
