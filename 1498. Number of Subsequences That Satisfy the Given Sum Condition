@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int numSubseq(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int ans = 0;
+        int n = nums.size();
+        int leftmax = 0, rightmax = n - 1;
+        const int MOD = 1e9 + 7;
+
+        // Precompute powers of 2 up to n-1
+        vector<int> power(n, 1);
+        for (int i = 1; i < n; i++) {
+            power[i] = (power[i - 1] * 2) % MOD;
+        }
+
+        for (int i = 0; i < n; i++) {  // Keeping your for-loop structure
+            if (leftmax > rightmax)
+                break;
+
+            if (nums[leftmax] + nums[rightmax] <= target) {
+                ans = (ans + power[rightmax - leftmax]) % MOD;
+                leftmax++;
+            } else {
+                rightmax--;
+            }
+        }
+
+        return ans;
+    }
+};
+
+
+YOUTUBE : https://www.youtube.com/watch?v=ltu73v-3Ios
