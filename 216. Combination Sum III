@@ -23,3 +23,6 @@ void calc(vector<vector<int>>& res,vector<int>& temp,int n,int tar,int index,int
         return res;
     }
 };
+
+TIME COMPLEXITY : O(N POWER K )
+SPACE COMPLEXITY : 0(N POWER K)
