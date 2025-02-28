@@ -1,0 +1,25 @@
+class Solution {
+public:
+
+void calc(vector<vector<int>>& res,vector<int>& temp,int n,int tar,int index,int size,int sum)
+    {
+        if(index==size+1 || sum==tar)
+        {
+            if(sum==tar && temp.size()==n)
+            {
+                res.push_back(temp);
+            }
+            return;
+        }
+        temp.push_back(index);
+              calc(res,temp,n,tar,index+1,size,sum+index);
+              temp.pop_back();
+                calc(res,temp,n,tar,index+1,size,sum);
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> res;
+        vector<int> temp;
+        calc(res,temp,k,n,1,9,0);
+        return res;
+    }
+};
