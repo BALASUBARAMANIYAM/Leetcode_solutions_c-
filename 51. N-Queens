@@ -1,0 +1,56 @@
+class Solution {
+public:
+
+    // Function to check if it's safe to place a queen at board[row][col]
+    bool check(int row, int col, vector<vector<int>>& board, int n) {
+        // Check the column
+        for (int i = 0; i < row; i++) {
+            if (board[i][col] == 1)
+                return false;
+        }
+
+        // Check upper-left diagonal
+        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 1)
+                return false;
+        }
+
+        // Check upper-right diagonal
+        for (int i = row, j = col; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] == 1)
+                return false;
+        }
+
+        return true; // Position is safe
+    }
+
+    void cal(vector<vector<string>>& res, vector<vector<int>>& board, int row, int n) {
+        if (row == n) { // If all queens are placed, store the solution
+            vector<string> temp;
+            for (int i = 0; i < n; i++) {
+                string rowStr = "";
+                for (int j = 0; j < n; j++) {
+                    rowStr += (board[i][j] == 1 ? 'Q' : '.');
+                }
+                temp.push_back(rowStr);
+            }
+            res.push_back(temp);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (check(row, col, board, n)) {
+                board[row][col] = 1; // Place queen
+                cal(res, board, row + 1, n); // Recur for next row
+                board[row][col] = 0; // Backtrack (remove queen)
+            }
+        }
+    }
+
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> res;
+        vector<vector<int>> board(n, vector<int>(n, 0)); // Initialize 2D matrix with 0
+        cal(res, board, 0, n);
+        return res;
+    }
+};
