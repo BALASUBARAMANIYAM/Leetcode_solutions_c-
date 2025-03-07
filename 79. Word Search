@@ -1,0 +1,42 @@
+class Solution {
+public:
+    void cal(vector<vector<char>>& board, string word, int m, int n, int row, int col, int index, bool& ans) {
+        if (index == word.size()) { // Word completely matched
+            ans = true;
+            return;
+        }
+
+        if (row < 0 || row >= m || col < 0 || col >= n || board[row][col] != word[index]) 
+            return; // Out of bounds or mismatch
+
+        // Temporarily mark the cell as visited
+        char temp = board[row][col];
+        board[row][col] = ' ';
+
+        // Explore all 4 directions (backtracking)
+        cal(board, word, m, n, row + 1, col, index + 1, ans); // Down
+        cal(board, word, m, n, row - 1, col, index + 1, ans); // Up
+        cal(board, word, m, n, row, col + 1, index + 1, ans); // Right
+        cal(board, word, m, n, row, col - 1, index + 1, ans); // Left
+
+        // Restore the cell after backtracking
+        board[row][col] = temp;
+    }
+
+    bool exist(vector<vector<char>>& board, string word) {
+        bool ans = false;
+        int m = board.size();
+        int n = board[0].size();
+
+        // Start DFS from each cell that matches the first letter of the word
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == word[0]) { // If first character matches, start search
+                    cal(board, word, m, n, i, j, 0, ans);
+                    if (ans) return true; // If found, return immediately
+                }
+            }
+        }
+        return false; // Word not found
+    }
+};
